@@ -1,4 +1,3 @@
-from cmath import e
 import os
 import subprocess
 import sys
@@ -17,6 +16,7 @@ import time
 
 from modules.dragdrop.drag_and_drop import Gif_drop
 from modules.verify.verify_dropped import DroppedFile
+from modules.threads.thfl_process import THFLProcess
 
 #--->>    pyside6-rcc resources.qrc -o resources_rc.py
 # https://www.pythonguis.com/tutorials/packaging-pyqt6-applications-windows-pyinstaller/
@@ -31,29 +31,19 @@ class MainProcess(QThread):
 
     def run(self):
 
-        #below line will  be needed , ref link:https://github.com/xlwings/xlwings/issues/759
-        pythoncom.CoInitialize()
+        pythoncom.CoInitialize() # this line will  be needed , ref link: https://github.com/xlwings/xlwings/issues/759
 
-        self.thread_signal.emit('STARTED')
-
-        #called from main_process.py
-        # app_run = main(final_input_path)
-        # app_run.run_main_process()
-
-        # # make the variable global
-        # global output_folder_path
-
-        # output_folder_path = app_run.output_folder_path
-
-        # print('output_folder_path..........')
-        # print(output_folder_path)
-
-        # # emit signal that main process is finished
-        # self.thread_signal.emit('main_process_finished')
+        self.thread_signal.emit('STARTED') # emit signal that main process has started
         
-        time.sleep(5)
+        time.sleep(2)
 
-        self.thread_signal.emit('FINISHED')
+        thfl = THFLProcess() # initialize thfl process
+        thfl.execute_process()
+        print(thfl.input_raw_file_path)
+        print(thfl.ship)
+        print(thfl.space)
+        
+        self.thread_signal.emit('FINISHED') # emit signal that main process has finished
 
 
 class MainWindow(QMainWindow):
@@ -218,6 +208,11 @@ class MainWindow(QMainWindow):
             self.ui.btn_run.setStyleSheet(self.style_button_2) #==> #2F5597
             self.ui.btn_open_folder.setStyleSheet(self.style_button_1) #==> #2F5597
             self.ui.btn_open_folder.setEnabled(True)
+
+            # toggle left gui labels
+            self.ui.frm_welcome.setMaximumHeight(16777215)
+            self.ui.frm_status.setMaximumHeight(0)
+            self.ui.frm_verif.setMaximumHeight(0)
             
     def open_help_link(self):
         # link = 'C:\jeevrapps\cway_thfl_automation - new\data\_help\help.pdf'

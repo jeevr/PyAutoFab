@@ -39,6 +39,8 @@ class DroppedFile:
 
     def _dump_to_file(self):
         _file = open('data/_verification_data/input_file_data.txt', 'w')
+        print(self.file_path, file=_file)
         print(self.ship, file=_file)
         print(self.space, file=_file)
         _file.close()
+

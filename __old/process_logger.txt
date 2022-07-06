@@ -1,0 +1,3 @@
+    HANDLE                  BLOCKNAME BLOCK-NO BLOCK   NO  TRAY_SIZE NO_OF_LUGS TRO_ANGLE AT_SITE SUPPORT_CODE SUPPORT_NO COUNT
+0  '11CD05     ELECT_CWAY_TRAYBLOCK_A    5A1-A   5A1    A  To-60-7.2          X                NO   U-60-45/35        701   2.0
+1  '13F6AB  ELECT_CWAY_TRAY_BLOCK_TRO  5A1-XXX   5A1  XXX     TRo-20                  90R      NO                              
