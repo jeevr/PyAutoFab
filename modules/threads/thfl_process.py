@@ -38,7 +38,9 @@ class THFLProcess():
     def _load_and_transform(self):
         self.input_raw_file_path = 'data/_raw_data_input_copy/SC890_CW_ER.txt'
         raw = RawData(self.input_raw_file_path)
-        # print(raw.df_raw_tray)
+        print(raw.df_raw_tray)
+        print(raw.df_raw_hanger)
+
 
 # if __name__ == '__main__': # this code will not be executed when called from other script as a class object
     
