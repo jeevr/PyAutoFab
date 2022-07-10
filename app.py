@@ -38,10 +38,7 @@ class MainProcess(QThread):
         time.sleep(2)
 
         thfl = THFLProcess() # initialize thfl process
-        thfl.execute_process()
-        print(thfl.input_raw_file_path)
-        print(thfl.ship)
-        print(thfl.space)
+        thfl.execute_process() # execute process
         
         self.thread_signal.emit('FINISHED') # emit signal that main process has finished
 

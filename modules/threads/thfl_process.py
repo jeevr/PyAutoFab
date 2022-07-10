@@ -1,7 +1,8 @@
 
 # from modules.transform import transform_data
-from modules.transform.transform_data import RawData, Checker
+from modules.transform.transform_data import RawData
 from modules.file_manager.manage import FileManager
+from modules.verify.input_checker import Checker
 
 # from modules.transform.transform_data import *
 
@@ -24,10 +25,12 @@ class THFLProcess():
         self.space = (_file.readline()).strip()
         _file.close()
         
-    def execute_process(self):
+    def execute_process(self): # this the main process
         self._copy_raw_data() # copy raw data into output folder in advance
         
-        self._load_and_transform() # load and transform raw data
+        self._load_and_transform() # load and transform raw data, with checker
+
+        
 
 
         print('thfl process executed')
@@ -37,17 +40,19 @@ class THFLProcess():
         manage.copy_raw_input_data(self.input_raw_file_path)
 
     def _load_and_transform(self):
-        self.input_raw_file_path = 'data/_raw_data_input_copy/SC405_CW_ER.txt'
+        # self.input_raw_file_path = 'data/_raw_data_input_copy/SC405_CW_ER.txt'
+
         raw = RawData(self.input_raw_file_path)
         print(raw.df_raw_tray)
         print(raw.df_raw_hanger)
 
         raw.df_raw_tray.to_excel('df_raw_tray.xlsx')
         raw.df_raw_hanger.to_excel('df_raw_hanger.xlsx')
+        raw.df_raw_bracket.to_excel('df_raw_bracket.xlsx')
 
-        self._apply_checker(raw.df_raw_tray)
+        self._apply_checker(raw.df_raw_tray, raw.df_raw_hanger, raw.df_raw_bracket)
 
-    def _apply_checker(self, df_tray):
+    def _apply_checker(self, df_tray, df_hanger, df_bracket):
         # apply checker
         checker = Checker()
 
@@ -60,6 +65,11 @@ class THFLProcess():
         df_tray_checked = checker.check_tray(df_tray)
         df_tray_checked.to_excel('df_tray_checked.xlsx')
 
+        df_hanger_checked = checker.check_hanger(df_hanger)
+        df_hanger_checked.to_excel('df_hanger_checked.xlsx')
+
+        df_bracket_checked = checker.check_bracket(df_bracket)
+        df_bracket_checked.to_excel('df_bracket_checked.xlsx')
 
 # if __name__ == '__main__': # this code will not be executed when called from other script as a class object
     
